@@ -163,6 +163,7 @@ def sam_refine(video_state, point_prompt, click_state, interactive_state, evt:gr
         point_prompt: flag for positive or negative button click
         click_state: [[points], [labels]]
     """
+    
     if point_prompt == "Positive":
         coordinate = "[[{},{},1]]".format(evt.index[0], evt.index[1])
         interactive_state["positive_click_times"] += 1

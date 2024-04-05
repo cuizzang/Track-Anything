@@ -3,8 +3,10 @@ import numpy as np
 import torch
 from typing import Optional
 
+global sim
 
 def get_similarity(mk, ms, qk, qe):
+    global sim
     # used for training/inference and memory reading/memory potentiation
     # mk: B x CK x [N]    - Memory keys
     # ms: B x  1 x [N]    - Memory shrinkage
@@ -35,6 +37,8 @@ def get_similarity(mk, ms, qk, qe):
         similarity = similarity * ms / math.sqrt(CK)   # B*N*HW
     else:
         similarity = similarity / math.sqrt(CK)   # B*N*HW
+
+    sim = similarity
 
     return similarity
 

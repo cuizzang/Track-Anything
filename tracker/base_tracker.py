@@ -18,6 +18,8 @@ from tools.base_segmenter import BaseSegmenter
 from torchvision.transforms import Resize
 import progressbar
 
+from model.memory_util import sim
+
 
 class BaseTracker:
     def __init__(self, xmem_checkpoint, device, sam_model=None, model_type=None) -> None:
@@ -111,6 +113,11 @@ class BaseTracker:
         refine segmentation results with mask prompt
         """
         # convert to 1, 256, 256
+
+        global sim
+        if sim > 0.7:
+            return
+
         self.sam_model.set_image(frame)
         mode = 'mask'
         logits = logits.unsqueeze(0)

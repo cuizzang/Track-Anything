@@ -18,7 +18,7 @@ from tools.base_segmenter import BaseSegmenter
 from torchvision.transforms import Resize
 import progressbar
 
-from model.memory_util import sim
+import model.memory_util
 
 
 class BaseTracker:

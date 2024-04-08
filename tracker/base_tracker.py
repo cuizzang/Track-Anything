@@ -115,15 +115,16 @@ class BaseTracker:
         # convert to 1, 256, 256
 
         global sim
-        if sim > 0.7:
-            return
+        
 
         self.sam_model.set_image(frame)
         mode = 'mask'
         logits = logits.unsqueeze(0)
         logits = self.resizer(logits).cpu().numpy()
         prompts = {'mask_input': logits}    # 1 256 256
-        masks, scores, logits = self.sam_model.predict(prompts, mode, multimask=True)  # masks (n, h, w), scores (n,), logits (n, 256, 256)
+        if sim < 0.7:
+            masks, scores, logits = self.sam_model.predict(prompts, mode, multimask=True)  # masks (n, h, w), scores (n,), logits (n, 256, 256)
+        
         painted_image = mask_painter(frame, masks[np.argmax(scores)].astype('uint8'), mask_alpha=0.8)
         painted_image = Image.fromarray(painted_image)
         painted_image.save(f'/ssd1/gaomingqi/refine/{ti:05d}.png')
